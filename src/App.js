@@ -39,7 +39,7 @@ class App extends Component {
 
   getPotentialBuyers() {
     // axios (GET)
-    axios.get('https://joes-autos.herokuapp.com/api/vehicles').then( (results) => {
+    axios.get('https://joes-autos.herokuapp.com/api/buyers').then( (results) => {
       toast.success('Success!');
       this.setState({buyersToDisplay: results.data});
     }).catch( () => toast.error('Failed!') );
@@ -49,10 +49,12 @@ class App extends Component {
   sellCar(id) {
     // axios (DELETE)
     // setState with response -> vehiclesToDisplay
-    axios.delete(`https://joes-autos.herokuapp.com/api/vehicles/${id}`).then ( (results) => {
+    axios.delete(`https://joes-autos.herokuapp.com/api/vehicles/${id}`)
+    .then ( (results) => {
       toast.success('Success!');
       this.setState({vehiclesToDisplay: results.data.vehicles})
-    }).catch( () => toast.error("Failed!") );
+    })
+    .catch( () => toast.error("Failed!") );
   }
 
   filterByMake() {
@@ -118,6 +120,10 @@ class App extends Component {
   nameSearch() {
     let searchLetters = this.searchLetters.value;
 
+    axios.get(`https://joes-autos.herokuapp.com/api/buyers?name=${searchLetters}`).then( (results) => {
+      toast.success(results.data);
+      this.setState({buyersToDisplay: results.data});
+    }).catch( () => toast.error('Failed!') );
     // axios (GET)
     // setState with response -> buyersToDisplay
   }
